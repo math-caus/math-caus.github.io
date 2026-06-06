@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cours de maths — Collège & Lycée</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:      #1a1814;
+    --ink2:     #4a4740;
+    --ink3:     #8a8780;
+    --paper:    #faf8f4;
+    --paper2:   #f2efe8;
+    --rule:     #e0dcd2;
+    --accent:   #2d5fa6;
+    --accent2:  #c8472b;
+    --gold:     #b89a4e;
+    --ff-title: 'Playfair Display', Georgia, serif;
+    --ff-body:  'Source Serif 4', Georgia, serif;
+    --ff-mono:  'DM Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--ff-body);
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ─────────────────────────────── */
+  header {
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 0 2rem;
+  }
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+  }
+  .site-name {
+    font-family: var(--ff-title);
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: .01em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .site-name span { color: var(--accent); }
+  nav { display: flex; gap: 1.5rem; }
+  nav a {
+    font-family: var(--ff-mono);
+    font-size: .75rem;
+    font-weight: 500;
+    color: var(--ink2);
+    text-decoration: none;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    transition: color .2s;
+  }
+  nav a:hover { color: var(--accent); }
+
+  /* ── HERO ────────────────────────────────── */
+  .hero {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 5rem 2rem 3.5rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: end;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero-eyebrow {
+    font-family: var(--ff-mono);
+    font-size: .72rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: .9rem;
+  }
+  .hero h1 {
+    font-family: var(--ff-title);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 600;
+    line-height: 1.15;
+    color: var(--ink);
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent2);
+  }
+  .hero-sub {
+    margin-top: 1rem;
+    font-size: .95rem;
+    color: var(--ink2);
+    font-weight: 300;
+    max-width: 480px;
+    line-height: 1.7;
+  }
+  .hero-meta {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .hero-meta .year {
+    font-family: var(--ff-title);
+    font-size: 4.5rem;
+    font-weight: 400;
+    color: var(--rule);
+    line-height: 1;
+    letter-spacing: -.02em;
+  }
+  .hero-meta .school {
+    font-family: var(--ff-mono);
+    font-size: .7rem;
+    color: var(--ink3);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    margin-top: .3rem;
+  }
+
+  /* ── NIVEAUX ─────────────────────────────── */
+  .section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem;
+  }
+  .section-label {
+    font-family: var(--ff-mono);
+    font-size: .68rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  .levels-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+
+  .level-card {
+    background: var(--paper);
+    padding: 1.6rem 1.4rem;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    transition: background .18s;
+    position: relative;
+    overflow: hidden;
+  }
+  .level-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--card-color, var(--accent));
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform .22s ease;
+  }
+  .level-card:hover { background: var(--paper2); }
+  .level-card:hover::before { transform: scaleY(1); }
+
+  .level-tag {
+    font-family: var(--ff-mono);
+    font-size: .65rem;
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--card-color, var(--accent));
+  }
+  .level-name {
+    font-family: var(--ff-title);
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .level-desc {
+    font-size: .82rem;
+    color: var(--ink3);
+    font-weight: 300;
+    line-height: 1.5;
+    margin-top: .1rem;
+  }
+  .level-count {
+    margin-top: auto;
+    padding-top: .9rem;
+    font-family: var(--ff-mono);
+    font-size: .68rem;
+    color: var(--ink3);
+    letter-spacing: .04em;
+  }
+
+  /* Couleurs par niveau */
+  .c6  { --card-color: #2d5fa6; }
+  .c5  { --card-color: #1a7a5a; }
+  .c4  { --card-color: #7a4ca6; }
+  .c3  { --card-color: #c8472b; }
+  .c2  { --card-color: #b89a4e; }
+  .c1  { --card-color: #3a6e8a; }
+  .cTle{ --card-color: #1a1814; }
+
+  /* ── RESSOURCES ──────────────────────────── */
+  .resources {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+    margin-top: 0;
+  }
+  .resource-card {
+    background: var(--paper2);
+    border: 1px solid var(--rule);
+    padding: 1.2rem 1.3rem;
+    text-decoration: none;
+    display: block;
+    transition: border-color .18s, background .18s;
+  }
+  .resource-card:hover {
+    border-color: var(--accent);
+    background: var(--paper);
+  }
+  .resource-icon {
+    font-size: 1.3rem;
+    margin-bottom: .5rem;
+    color: var(--ink2);
+  }
+  .resource-title {
+    font-family: var(--ff-title);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: .25rem;
+  }
+  .resource-desc {
+    font-size: .8rem;
+    color: var(--ink3);
+    font-weight: 300;
+    line-height: 1.5;
+  }
+
+  /* ── FOOTER ──────────────────────────────── */
+  footer {
+    border-top: 1px solid var(--rule);
+    margin-top: 3rem;
+  }
+  .footer-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .footer-name {
+    font-family: var(--ff-title);
+    font-size: .9rem;
+    color: var(--ink2);
+  }
+  .footer-note {
+    font-family: var(--ff-mono);
+    font-size: .68rem;
+    color: var(--ink3);
+    letter-spacing: .04em;
+  }
+
+  /* ── ANIMATION ENTRÉE ────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero      { animation: fadeUp .5s ease both; }
+  .section   { animation: fadeUp .5s ease both; }
+  .section:nth-of-type(2) { animation-delay: .08s; }
+  .section:nth-of-type(3) { animation-delay: .16s; }
+
+  /* ── RESPONSIVE ──────────────────────────── */
+  @media (max-width: 600px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-meta { display: none; }
+    nav { gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="site-name" href="index.html">maths<span>.</span></a>
+    <nav>
+      <a href="#college">Collège</a>
+      <a href="#lycee">Lycée</a>
+      <a href="#ressources">Ressources</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div>
+    <p class="hero-eyebrow">Cours · Exercices · Activités</p>
+    <h1>Tout ce qu'il faut<br>pour réussir en <em>maths.</em></h1>
+    <p class="hero-sub">
+      Retrouve ici tes cours, exercices, corrections et activités interactives, organisés par niveau. Bonne révision !
+    </p>
+  </div>
+  <div class="hero-meta">
+    <div class="year">25</div>
+    <div class="school">Collège René Goscinny</div>
+  </div>
+</div>
+
+<!-- COLLÈGE -->
+<section class="section" id="college">
+  <p class="section-label">Collège</p>
+  <div class="levels-grid">
+
+    <a href="6e/index.html" class="level-card c6">
+      <span class="level-tag">6ème</span>
+      <span class="level-name">Sixième</span>
+      <span class="level-desc">Nombres entiers, fractions, géométrie plane, statistiques</span>
+      <span class="level-count">— chapitres disponibles</span>
+    </a>
+
+    <a href="5e/index.html" class="level-card c5">
+      <span class="level-tag">5ème</span>
+      <span class="level-name">Cinquième</span>
+      <span class="level-desc">Relatifs, proportionnalité, parallélogrammes, probabilités</span>
+      <span class="level-count">— chapitres disponibles</span>
+    </a>
+
+    <a href="4e/index.html" class="level-card c4">
+      <span class="level-tag">4ème</span>
+      <span class="level-name">Quatrième</span>
+      <span class="level-desc">Puissances, Pythagore, Thalès, équations, fractions</span>
+      <span class="level-count">— chapitres disponibles</span>
+    </a>
+
+    <a href="3e/index.html" class="level-card c3">
+      <span class="level-tag">3ème</span>
+      <span class="level-name">Troisième</span>
+      <span class="level-desc">Développements, racines carrées, trigonométrie, brevet</span>
+      <span class="level-count">— chapitres disponibles</span>
+    </a>
+
+  </div>
+</section>
+
+<!-- LYCÉE -->
+<section class="section" id="lycee">
+  <p class="section-label">Lycée</p>
+  <div class="levels-grid">
+
+    <a href="2nde/index.html" class="level-card c2">
+      <span class="level-tag">2nde</span>
+      <span class="level-name">Seconde</span>
+      <span class="level-desc">Fonctions, vecteurs, statistiques, géométrie analytique</span>
+      <span class="level-count">— chapitres disponibles</span>
+    </a>
+
+    <a href="1ere/index.html" class="level-card c1">
+      <span class="level-tag">1ère</span>
+      <span class="level-name">Première</span>
+      <span class="level-desc">Dérivation, suites, trigonométrie, probabilités</span>
+      <span class="level-count">— chapitres disponibles</span>
+    </a>
+
+    <a href="tle/index.html" class="level-card cTle">
+      <span class="level-tag">Tle</span>
+      <span class="level-name">Terminale</span>
+      <span class="level-desc">Intégrales, logarithmes, limites, bac</span>
+      <span class="level-count">— chapitres disponibles</span>
+    </a>
+
+  </div>
+</section>
+
+<!-- RESSOURCES -->
+<section class="section" id="ressources">
+  <p class="section-label">Ressources utiles</p>
+  <div class="resources">
+
+    <a href="https://www.geogebra.org" class="resource-card" target="_blank" rel="noopener">
+      <div class="resource-icon">◈</div>
+      <div class="resource-title">GeoGebra</div>
+      <div class="resource-desc">Constructions géométriques interactives en ligne</div>
+    </a>
+
+    <a href="https://www.sesamath.net" class="resource-card" target="_blank" rel="noopener">
+      <div class="resource-icon">◉</div>
+      <div class="resource-title">Sésamath</div>
+      <div class="resource-desc">Exercices en ligne et manuels libres</div>
+    </a>
+
+    <a href="https://mathigon.org" class="resource-card" target="_blank" rel="noopener">
+      <div class="resource-icon">◎</div>
+      <div class="resource-title">Mathigon</div>
+      <div class="resource-desc">Explorations mathématiques interactives</div>
+    </a>
+
+    <a href="https://www.wolframalpha.com" class="resource-card" target="_blank" rel="noopener">
+      <div class="resource-icon">∞</div>
+      <div class="resource-title">Wolfram Alpha</div>
+      <div class="resource-desc">Calcul formel et vérification de résultats</div>
+    </a>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <span class="footer-name">Cours de mathématiques — Collège René Goscinny</span>
+    <span class="footer-note">Année scolaire 2024–2025</span>
+  </div>
+</footer>
+
+</body>
+</html>
