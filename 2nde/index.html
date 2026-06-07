@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<!--
+  ════════════════════════════════════════════════════════════════════
+  COMMENT LIRE CE FICHIER — Guide pédagogique
+  ════════════════════════════════════════════════════════════════════
+
+  Ce fichier est une copie adaptée de index-5e.html.
+  Principe : on ne repart JAMAIS de zéro. On copie un fichier qui
+  marche, et on change uniquement ce qui doit changer.
+
+  Les seules modifications par rapport à index-5e.html sont :
+    1. Le <title> dans <head>
+    2. Le texte du fil d'Ariane (breadcrumb) dans le header
+    3. Le texte du hero (eyebrow, h1, hero-sub, hero-number)
+    4. Le lien du dm-tab (vers devoirs-maison/ de ce niveau)
+    5. Les chapitres dans les sections (href, ch-num, ch-title)
+    6. La couleur --accent dans :root → adaptée au niveau Seconde
+       (ici on garde le bleu standard du design system)
+
+  La CSS n'a PAS changé du tout — c'est exactement ce principe
+  qui garantit la cohérence visuelle entre tous les niveaux.
+  ════════════════════════════════════════════════════════════════════
+-->
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ① TITRE DE L'ONGLET — c'est ce qui s'affiche dans l'onglet du navigateur -->
+<title>2nde — Cours de maths</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /*
+    ── À PROPOS DU CSS ──────────────────────────────────────────────
+    Ce bloc de style est identique à celui de index-5e.html.
+    On ne touche à RIEN ici, sauf si l'on voulait changer la couleur
+    d'accent propre à ce niveau (variable --accent).
+
+    Les "variables CSS" (préfixées par --) sont déclarées une seule
+    fois dans :root { } et réutilisées partout via var(--nom).
+    Changer --accent ici changerait automatiquement toutes les teintes
+    bleues de la page (fil d'Ariane, eyebrow, hover des cartes…).
+
+    Pour la 2nde, on conserve le bleu #b89a4e défini dans index.html
+    comme couleur de niveau (.c2). On pourrait l'injecter ici en
+    remplaçant la valeur de --accent, mais par souci de simplicité
+    on laisse le bleu par défaut qui est déjà cohérent avec le reste.
+    ─────────────────────────────────────────────────────────────────
+  */
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:    #1a1814;
+    --ink2:   #4a4740;
+    --ink3:   #8a8780;
+    --paper:  #faf8f4;
+    --paper2: #f2efe8;
+    --rule:   #e0dcd2;
+    --accent: #b89a4e;   /* ← Couleur Seconde (gold) tirée de index.html (.c2) */
+    --ff-title: 'Playfair Display', Georgia, serif;
+    --ff-body:  'Source Serif 4', Georgia, serif;
+    --ff-mono:  'DM Mono', monospace;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--ff-body);
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper);
+    position: sticky;   /* reste collé en haut quand on défile */
+    top: 0;
+    z-index: 100;       /* passe au-dessus du reste de la page */
+    padding: 0 2rem;
+  }
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;     /* centrage horizontal */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+  }
+  .site-name {
+    font-family: var(--ff-title);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .site-name span { color: var(--accent); }
+
+  /*
+    Le fil d'Ariane (breadcrumb) montre où on est dans le site :
+    Accueil / 2nde
+    C'est une navigation secondaire utile aux élèves.
+  */
+  .breadcrumb {
+    font-family: var(--ff-mono);
+    font-size: .72rem;
+    color: var(--ink3);
+    letter-spacing: .04em;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+  .breadcrumb a { color: var(--ink3); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--accent); }
+  .breadcrumb .sep { color: var(--rule); }
+  .breadcrumb .current { color: var(--accent); }
+
+  /* ── BARRE DM (Devoirs Maison) ── */
+  .dm-bar {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 2rem 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .dm-tab {
+    font-family: var(--ff-mono);
+    font-size: .72rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 9px 18px;
+    border-radius: 2px;
+    border: 1px solid #b89a4e;
+    color: #7a6020;
+    background: #fdf6e8;
+    transition: background .15s, border-color .15s, color .15s;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+  }
+  .dm-tab:hover { background: #faeeda; border-color: #7a6020; }
+  .dm-bar-note {
+    font-family: var(--ff-body);
+    font-weight: 300;
+    font-size: .85rem;
+    color: var(--ink3);
+    font-style: italic;
+  }
+
+  /* ── HERO (zone titre principale) ── */
+  .hero {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3.5rem 2rem 2.5rem;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+  .hero-eyebrow {
+    font-family: var(--ff-mono);
+    font-size: .72rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: .7rem;
+  }
+  .hero h1 {
+    font-family: var(--ff-title);
+    font-size: clamp(1.8rem, 4vw, 2.6rem); /* taille fluide selon écran */
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .hero-sub {
+    margin-top: .8rem;
+    font-size: .9rem;
+    color: var(--ink2);
+    font-weight: 300;
+  }
+  .hero-number {
+    font-family: var(--ff-title);
+    font-size: 6rem;
+    font-weight: 400;
+    color: var(--rule);   /* très pâle, effet décoratif */
+    line-height: 1;
+    letter-spacing: -.03em;
+    flex-shrink: 0;
+  }
+
+  /* ── SECTIONS DE CHAPITRES ── */
+  .section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem;
+  }
+  /*
+    section-label : le titre de domaine (ex. "Algèbre & Calcul")
+    Le ::after crée la ligne horizontale qui s'étire jusqu'au bord.
+    flex: 1 sur l'élément pseudo signifie "prends tout l'espace restant".
+  */
+  .section-label {
+    font-family: var(--ff-mono);
+    font-size: .68rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  /*
+    ── COULEURS DE DOMAINE ─────────────────────────────────────────
+    Chaque chapitre reçoit une classe CSS comme "theme-calc" ou
+    "theme-geo". Ces classes définissent une variable locale --t
+    (abréviation de "theme color") utilisée dans les règles
+    .chapter-card::before et .ch-num pour la barre colorée au survol
+    et le numéro.
+
+    En 2nde on ajoute un thème "Analyse" (functions) en violet-bleu
+    pour les chapitres sur les fonctions.
+    ─────────────────────────────────────────────────────────────────
+  */
+  .theme-calc   { --t: #2d5fa6; }  /* bleu  — Algèbre & Calcul */
+  .theme-geo    { --t: #1a7a5a; }  /* vert  — Géométrie         */
+  .theme-propor { --t: #7a4ca6; }  /* violet — Analyse/Fonctions */
+  .theme-stats  { --t: #c8472b; }  /* rouge — Données & Stats    */
+
+  /*
+    chapter-list : conteneur qui "colle" les cartes ensemble.
+    gap: 1px + background: var(--rule) = les lignes de séparation
+    entre les cartes sont en fait le fond du conteneur qui transparaît.
+    C'est une astuce classique pour créer des séparateurs sans border.
+  */
+  .chapter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+
+  /*
+    chapter-card : chaque ligne de chapitre.
+    display: grid avec 3 colonnes : numéro | contenu | flèche
+    Le ::before crée la barre colorée à gauche au survol.
+    transform: scaleY(0) → invisible par défaut
+    transform: scaleY(1) au hover → apparaît avec une animation
+    transform-origin: bottom → elle grandit depuis le bas
+  */
+  .chapter-card {
+    background: var(--paper);
+    padding: 1.4rem 1.5rem;
+    text-decoration: none;
+    display: grid;
+    grid-template-columns: 2.5rem 1fr auto;
+    align-items: center;
+    gap: 1.2rem;
+    transition: background .18s;
+    position: relative;  /* nécessaire pour positionner le ::before */
+  }
+  .chapter-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--t, var(--accent)); /* --t en priorité, --accent en fallback */
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform .2s ease;
+  }
+  .chapter-card:hover { background: var(--paper2); }
+  .chapter-card:hover::before { transform: scaleY(1); }
+
+  .ch-num {
+    font-family: var(--ff-mono);
+    font-size: .75rem;
+    color: var(--t, var(--accent));
+    font-weight: 500;
+    letter-spacing: .04em;
+  }
+  .ch-title {
+    font-family: var(--ff-title);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+
+  /*
+    ch-tags : les petites pastilles "Cours", "Exercices"…
+    La classe .has (ajoutée manuellement quand le fichier existe)
+    colorie la pastille en bleu pour signaler que le contenu est dispo.
+  */
+  .ch-tags {
+    display: flex;
+    gap: .4rem;
+    flex-wrap: wrap;
+    margin-top: .35rem;
+  }
+  .ch-tag {
+    font-family: var(--ff-mono);
+    font-size: .62rem;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 2px;
+    background: var(--paper2);
+    color: var(--ink3);
+    border: 1px solid var(--rule);
+  }
+  .ch-tag.has { background: #e8f0fa; color: #1a4a8a; border-color: #b5cef0; }
+
+  .ch-arrow {
+    font-size: 1rem;
+    color: var(--rule);
+    transition: color .18s, transform .18s;
+  }
+  .chapter-card:hover .ch-arrow {
+    color: var(--t, var(--accent));
+    transform: translateX(3px); /* glisse légèrement vers la droite */
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--rule);
+    margin-top: 2rem;
+  }
+  .footer-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .footer-name { font-family: var(--ff-title); font-size: .9rem; color: var(--ink2); }
+  .footer-note { font-family: var(--ff-mono); font-size: .68rem; color: var(--ink3); }
+
+  /*
+    ── ANIMATION D'ENTRÉE ──────────────────────────────────────────
+    fadeUp : fade-in + remontée depuis le bas.
+    "both" dans animation signifie que les styles s'appliquent
+    avant ET après l'animation (évite le flash au chargement).
+    ─────────────────────────────────────────────────────────────────
+  */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero    { animation: fadeUp .4s ease both; }
+  .section { animation: fadeUp .4s ease both .08s; } /* léger décalage */
+
+  /*
+    ── RESPONSIVE ──────────────────────────────────────────────────
+    Sur petits écrans (≤ 600px) :
+    - le grand numéro décoratif "2e" est caché (pas de place)
+    - la grille des chapitres réduit sa première colonne
+    - le dm-bar passe en colonne
+    ─────────────────────────────────────────────────────────────────
+  */
+  @media (max-width: 600px) {
+    .hero-number { display: none; }
+    .chapter-card { grid-template-columns: 2rem 1fr auto; gap: .8rem; }
+    .dm-bar { flex-direction: column; align-items: flex-start; gap: .6rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════
+  STRUCTURE HTML — Les 5 grandes zones de la page :
+    1. <header>   → barre fixe en haut
+    2. <div.hero> → titre du niveau
+    3. <div.dm-bar> → accès rapide aux DM
+    4. <section>  × N → un bloc par domaine mathématique
+    5. <footer>   → pied de page
+  ═══════════════════════════════════════════════════════════════ -->
+
+<!-- ② HEADER — seul le texte du fil d'Ariane change -->
+<header>
+  <div class="header-inner">
+    <a class="site-name" href="../index.html">maths<span>.</span></a>
+    <div class="breadcrumb">
+      <a href="../index.html">Accueil</a>
+      <span class="sep">/</span>
+      <span class="current">2nde</span>
+      <!--
+        .sep est juste un "/" décoratif.
+        .current est la page active (pas de lien, juste du texte coloré).
+      -->
+    </div>
+  </div>
+</header>
+
+<!-- ③ HERO — zone de titre principale
+  Les seules modifications vs 5e :
+  - hero-eyebrow : "Classe de seconde"
+  - h1 : "Programme de 2nde"
+  - hero-sub : "12 chapitres · …"
+  - hero-number : "2e"
+-->
+<div class="hero">
+  <div>
+    <p class="hero-eyebrow">Classe de seconde</p>
+    <h1>Programme<br>de 2nde</h1>
+    <p class="hero-sub">12 chapitres · Cours, exercices &amp; activités</p>
+    <!--
+      &amp; = code HTML pour le caractère "&"
+      On ne peut pas écrire "&" directement dans du HTML
+      sans risquer de confondre le navigateur.
+    -->
+  </div>
+  <div class="hero-number">2e</div>
+</div>
+
+<!-- ④ BARRE DM — lien vers la page devoirs-maison/
+  Seule modification : le href pointe vers le sous-dossier de CE niveau.
+  La structure de dossiers reflète la structure de navigation :
+    2nde/devoirs-maison/index.html
+-->
+<div class="dm-bar">
+  <a class="dm-tab" href="devoirs-maison/index.html">◆ Devoirs maison ↗</a>
+  <span class="dm-bar-note">Sujets transversaux, communs à plusieurs chapitres</span>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+  ⑤ CHAPITRES — organisés par domaine mathématique
+  
+  Comment fonctionne une chapter-card ?
+  ┌─────────────────────────────────────────────────────────┐
+  │  <a href="slug/index.html" class="chapter-card theme-X">  ← lien cliquable + couleur
+  │    <span class="ch-num">CH N</span>                       ← numéro
+  │    <div class="ch-body">                                  ← colonne centrale
+  │      <div class="ch-title">Nom du chapitre</div>
+  │      <div class="ch-tags">                                ← pastilles de contenu
+  │        <span class="ch-tag">Cours</span>
+  │        ...
+  │      </div>
+  │    </div>
+  │    <span class="ch-arrow">→</span>                        ← flèche décorative
+  │  </a>
+  └─────────────────────────────────────────────────────────┘
+
+  Le href pointe vers : slug/index.html
+  Le "slug" est une version simplifiée du titre, tout en minuscules,
+  sans accents, avec des tirets à la place des espaces.
+  Exemples :
+    "Calcul littéral"            → calcul-litteral/index.html
+    "Puissances et racines"      → puissances-racines/index.html
+    "Équations de droites"       → equations-droites/index.html
+  ═══════════════════════════════════════════════════════════════ -->
+
+<!-- DOMAINE 1 : Algèbre & Calcul -->
+<section class="section">
+  <p class="section-label">Algèbre &amp; Calcul</p>
+  <div class="chapter-list">
+
+    <!--
+      theme-calc = barre bleue au survol (--t: #2d5fa6)
+      href = chemin relatif depuis le dossier 2nde/
+    -->
+    <a href="calcul-litteral/index.html" class="chapter-card theme-calc">
+      <span class="ch-num">CH 1</span>
+      <div class="ch-body">
+        <div class="ch-title">Calcul littéral</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Cours</span>
+          <span class="ch-tag">Exercices</span>
+          <span class="ch-tag">Correction</span>
+          <span class="ch-tag">Activité</span>
+        </div>
+      </div>
+      <span class="ch-arrow">→</span>
+    </a>
+
+    <a href="puissances-racines/index.html" class="chapter-card theme-calc">
+      <span class="ch-num">CH 2</span>
+      <div class="ch-body">
+        <div class="ch-title">Puissances et racines carrées</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Cours</span>
+          <span class="ch-tag">Exercices</span>
+          <span class="ch-tag">Correction</span>
+          <span class="ch-tag">Activité</span>
+        </div>
+      </div>
+      <span class="ch-arrow">→</span>
+    </a>
+
+    <a href="arithmetique/index.html" class="chapter-card theme-calc">
+      <span class="ch-num">CH 3</span>
+      <div class="ch-body">
+        <div class="ch-title">Arithmétique</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Cours</span>
+          <span class="ch-tag">Exercices</span>
+          <span class="ch-tag">Correction</span>
+          <span class="ch-tag">Activité</span>
+        </div>
+      </div>
+      <span class="ch-arrow">→</span>
+    </a>
+
+    <a href="ensembles-intervalles/index.html" class="chapter-card theme-calc">
+      <span class="ch-num">CH 4</span>
+      <div class="ch-body">
+        <div class="ch-title">Ensembles de nombres et intervalles</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Cours</span>
+          <span class="ch-tag">Exercices</span>
+          <span class="ch-tag">Correction</span>
+          <span class="ch-tag">Activité</span>
+        </div>
+      </div>
+      <span class="ch-arrow">→</span>
+    </a>
+
+    <a href="proportions-evolutions/index.html" class="chapter-card theme-calc">
+      <span class="ch-num">CH 7</span>
+      <div class="ch-body">
+        <div class="ch-title">Proportions et évolutions</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Cours</span>
+          <span class="ch-tag">Exercices</span>
+          <span class="ch-tag">Correction</span>
+          <span class="ch-tag">Activité</span>
+        </div>
+      </div>
+      <span class="ch-arrow">→</span>
+    </a>
+
+  </div>
+</section>
+
+<!-- DOMAINE 2 : Fonctions & Analyse -->
+<section class="section">
+  <p class="section-label">Fonctions &amp; Analyse</p>
+  <div class="chapter-list">
+
+    <!--
+      theme-propor = barre violette (--t: #7a4ca6)
+      Choisi pour l'analyse car c'est un domaine "intermédiaire"
+      entre algèbre et géométrie.
+    -->
+    <a href="fonctions-1/index.html" class="chapter-card theme-propor">
+      <span class="ch-num">CH 6</span>
+      <div class="ch-body">
+        <div class="ch-title">Fonctions — partie 1</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Cours</span>
+          <span class="ch-tag">Exercices</span>
+          <span class="ch-tag">Correction</span>
+          <span class="ch-tag">Activité</span>
+        </div>
+      </div>
+      <span class="ch-arrow">→</span>
+    </a>
+
+    <a href="fonctions-2/index.html" class="chapter-card theme-propor">
+      <span class="ch-num">CH 8</span>
+      <div class="ch-body">
+        <div class="ch-title">Fonctions — partie 2</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Cours</span>
+          <span class="ch-tag">Exercices</span>
+          <span class="ch-tag">Correction</span>
+          <span class="ch-tag">Activité</span>
+        </div>
+      </div>
+      <span class="ch-arrow">→</span>
+    </a>
+
+    <a href="equations-droites/index.html" class="chapter-card theme-propor">
+      <span class="ch-num">CH 11</span>
+      <div class="ch-body">
+        <div class="ch-title">Équations de droites</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Cours</span>
+          <span class="ch-tag">Exercices</span>
+          <span class="ch-tag">Correction</span>
+          <span class="ch-tag">Activité</span>
+        </div>
+      </div>
+      <span class="ch-arrow">→</span>
+    </a>
+
+  </div>
+</section>
+
+<!-- DOMAINE 3 : Géométrie -->
+<section class="section">
+  <p class="section-label">Géométrie</p>
+  <div class="chapter-list">
+
+    <a href="vecteurs/index.html" class="chapter-card theme-geo">
+      <span class="ch-num">CH 5</span>
+      <div class="ch-body">
+        <div class="ch-title">Vecteurs</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Cours</span>
+          <span class="ch-tag">Exercices</span>
+          <span class="ch-tag">Correction</span>
+          <span class="ch-tag">Activité</span>
+        </div>
+      </div>
+      <span class="ch-arrow">→</span>
+    </a>
+
+    <a href="colinearite/index.html" class="chapter-card theme-geo">
+      <span class="ch-num">CH 9</span>
+      <div class="ch-body">
+        <div class="ch-title">Colinéarité</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Cours</span>
+          <span class="ch-tag">Exercices</span>
+          <span class="ch-tag">Correction</span>
+          <span class="ch-tag">Activité</span>
+        </div>
+      </div>
+      <span class="ch-arrow">→</span>
+    </a>
+
+  </div>
+</section>
+
+<!-- DOMAINE 4 : Données & Probabilités -->
+<section class="section">
+  <p class="section-label">Données &amp; Probabilités</p>
+  <div class="chapter-list">
+
+    <a href="probabilites/index.html" class="chapter-card theme-stats">
+      <span class="ch-num">CH 10</span>
+      <div class="ch-body">
+        <div class="ch-title">Probabilités</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Cours</span>
+          <span class="ch-tag">Exercices</span>
+          <span class="ch-tag">Correction</span>
+          <span class="ch-tag">Activité</span>
+        </div>
+      </div>
+      <span class="ch-arrow">→</span>
+    </a>
+
+    <a href="statistiques/index.html" class="chapter-card theme-stats">
+      <span class="ch-num">CH 12</span>
+      <div class="ch-body">
+        <div class="ch-title">Statistiques</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Cours</span>
+          <span class="ch-tag">Exercices</span>
+          <span class="ch-tag">Correction</span>
+          <span class="ch-tag">Activité</span>
+        </div>
+      </div>
+      <span class="ch-arrow">→</span>
+    </a>
+
+  </div>
+</section>
+
+<!--
+  FOOTER — identique à tous les autres niveaux.
+  On ne change jamais le footer d'un niveau à l'autre.
+-->
+<footer>
+  <div class="footer-inner">
+    <span class="footer-name">Cours de mathématiques — Collège René Goscinny</span>
+    <span class="footer-note">Année scolaire 2024–2025</span>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<!--
+  ════════════════════════════════════════════════════════════════════
+  FICHIER : 2nde/calcul-litteral/index.html
+  SOURCE  : chapitre-modele-v2.html (copie adaptée — aucune CSS modifiée)
+
+  PRINCIPE DE TRAVAIL
+  ───────────────────
+  Ce fichier est une copie exacte du modèle. La seule chose qui change
+  d'un chapitre à l'autre, c'est le CONTENU TEXTUEL et quelques LIENS.
+  La CSS (tout ce qui est entre <style> et </style>) ne change JAMAIS.
+
+  CHECKLIST DES MODIFICATIONS effectuées sur ce fichier :
+    ① <title>          → nom du chapitre + niveau
+    ② .breadcrumb      → fil d'Ariane correct (Accueil / 2nde / CH 1)
+    ③ .hero-eyebrow    → "Chapitre 1 · 2nde · Algèbre & Calcul"
+    ④ <h1>             → titre du chapitre
+    ⑤ .cours-card-desc → description du contenu du cours
+    ⑥ .activite-title  → nom du fichier d'activité + sujet
+    ⑦ liens activité   → activite-calcul-litteral.html
+    ⑧ .chapter-nav     → "Retour 2nde" + "CH 2 · Puissances →"
+    ⑨ --accent         → #b89a4e (gold de la Seconde)
+    ⑩ .btn-primary:hover → couleur hover cohérente avec le gold
+
+  STRUCTURE DU DOSSIER ATTENDUE
+  ──────────────────────────────
+  2nde/
+  └── calcul-litteral/
+      ├── index.html          ← CE fichier
+      ├── cours.pdf
+      ├── exercices.pdf
+      ├── exercices-supplementaires.pdf
+      ├── correction.pdf
+      ├── activite-calcul-litteral.html
+      ├── dm-sujet.pdf
+      └── dm-correction.pdf
+
+  CHEMINS RELATIFS — comment ça marche ?
+  ──────────────────────────────────────
+  Ce fichier est dans : 2nde/calcul-litteral/index.html
+  Pour remonter d'un dossier : ../
+  Pour remonter de deux dossiers : ../../
+
+  Donc :
+    href="../index.html"      → 2nde/index.html         (liste des chapitres)
+    href="../../index.html"   → index.html              (accueil du site)
+    href="cours.pdf"          → 2nde/calcul-litteral/cours.pdf (même dossier)
+  ════════════════════════════════════════════════════════════════════
+-->
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ① Titre de l'onglet navigateur : "CH 1 — Calcul littéral · 2nde" -->
+<title>CH 1 — Calcul littéral · 2nde</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /*
+    ══════════════════════════════════════════════════════════════════
+    CSS IDENTIQUE AU MODÈLE — ne pas modifier
+    Seules différences autorisées :
+      • --accent    → couleur du niveau (ici gold #b89a4e pour la 2nde)
+      • .btn-primary:hover → couleur cohérente avec l'accent
+    ══════════════════════════════════════════════════════════════════
+  */
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:    #1a1814;
+    --ink2:   #4a4740;
+    --ink3:   #8a8780;
+    --paper:  #faf8f4;
+    --paper2: #f2efe8;
+    --rule:   #e0dcd2;
+    --accent: #b89a4e;   /* ⑨ couleur Seconde (gold) */
+    --ff-title: 'Playfair Display', Georgia, serif;
+    --ff-body:  'Source Serif 4', Georgia, serif;
+    --ff-mono:  'DM Mono', monospace;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--ff-body);
+    font-size: 16px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 0 2rem;
+  }
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+  }
+  .site-name {
+    font-family: var(--ff-title);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .site-name span { color: var(--accent); }
+  .breadcrumb {
+    font-family: var(--ff-mono);
+    font-size: .72rem;
+    color: var(--ink3);
+    letter-spacing: .04em;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+  .breadcrumb a { color: var(--ink3); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--accent); }
+  .breadcrumb .sep { color: var(--rule); }
+  .breadcrumb .current { color: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 2rem 2rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+  .hero-eyebrow {
+    font-family: var(--ff-mono);
+    font-size: .72rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: .6rem;
+  }
+  .hero h1 {
+    font-family: var(--ff-title);
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--ink);
+    max-width: 560px;
+  }
+
+  /*
+    hero-nav : le menu de navigation interne (ancres vers les sections).
+    Les liens avec href="#cours" font défiler la page jusqu'à id="cours".
+    C'est la navigation "dans la page" — différente du breadcrumb
+    qui navigue entre les pages.
+  */
+  .hero-nav {
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+    margin-top: 1.4rem;
+  }
+  .hero-nav a {
+    font-family: var(--ff-mono);
+    font-size: .68rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    color: var(--ink2);
+    text-decoration: none;
+    background: var(--paper2);
+    transition: border-color .15s, color .15s, background .15s;
+  }
+  .hero-nav a:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--paper);
+  }
+
+  /* Lien DM dans la hero-nav : style doré distinct */
+  .hero-nav a.dm {
+    border-color: #b89a4e;
+    color: #7a6020;
+    background: #fdf6e8;
+  }
+  .hero-nav a.dm:hover {
+    background: #faeeda;
+    border-color: #7a6020;
+  }
+
+  /* ── BLOCS DE CONTENU (cours, exercices, correction…) ── */
+  .main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem 3rem;
+  }
+  .block {
+    padding: 2.5rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .block:last-child { border-bottom: none; }
+
+  /*
+    block-header : la ligne de titre d'une section (ex. "Cours ────────")
+    display: flex + .block-rule { flex: 1 } = la règle occupe tout l'espace
+    restant après le label. Même astuce que section-label::after.
+  */
+  .block-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 1.4rem;
+  }
+  .block-label {
+    font-family: var(--ff-mono);
+    font-size: .68rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    white-space: nowrap;
+  }
+  .block-rule { flex: 1; height: 1px; background: var(--rule); }
+
+  /* ── GRILLE COURS (2 colonnes : document | aperçu) ── */
+  .cours-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+  .cours-card {
+    background: var(--paper);
+    padding: 1.4rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+  }
+  .cours-card-label {
+    font-family: var(--ff-mono);
+    font-size: .65rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink3);
+  }
+  .cours-card-title {
+    font-family: var(--ff-title);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .cours-card-desc {
+    font-size: .82rem;
+    color: var(--ink3);
+    font-weight: 300;
+    line-height: 1.5;
+    flex: 1; /* prend tout l'espace vertical dispo → boutons toujours en bas */
+  }
+  .cours-card-actions {
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+    margin-top: .5rem;
+  }
+
+  /* ── BOUTONS ── */
+  .btn {
+    font-family: var(--ff-mono);
+    font-size: .68rem;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 2px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    transition: background .15s, color .15s;
+    cursor: pointer;
+    border: none;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: #9a7e30; } /* ⑩ hover cohérent avec le gold */
+  .btn-secondary {
+    background: var(--paper2);
+    color: var(--ink2);
+    border: 1px solid var(--rule);
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); background: var(--paper); }
+  .btn-dm {
+    background: #fdf6e8;
+    color: #7a6020;
+    border: 1px solid #b89a4e;
+  }
+  .btn-dm:hover { background: #faeeda; border-color: #7a6020; }
+
+  /* ── VISIONNEUSE PDF ── */
+  /*
+    pdf-viewer : la zone qui affiche un PDF en iframe.
+    Par défaut elle montre un placeholder (texte + icône).
+    La fonction JS togglePDF() bascule entre les deux.
+    L'iframe a display:none au départ pour éviter de charger
+    le PDF inutilement si l'élève ne le demande pas.
+  */
+  .pdf-viewer {
+    width: 100%;
+    height: 480px;
+    border: 1px solid var(--rule);
+    background: var(--paper2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.2rem;
+  }
+  .pdf-viewer iframe { width: 100%; height: 100%; border: none; display: none; }
+  .pdf-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .6rem;
+    color: var(--ink3);
+  }
+  .pdf-placeholder .icon { font-size: 2rem; line-height: 1; }
+  .pdf-placeholder p {
+    font-family: var(--ff-mono);
+    font-size: .72rem;
+    letter-spacing: .04em;
+    color: var(--ink3);
+    text-align: center;
+  }
+
+  /* ── LISTE DE FICHIERS (exercices, correction) ── */
+  .file-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+  .file-row {
+    background: var(--paper);
+    padding: 1rem 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    transition: background .15s;
+    position: relative;
+  }
+  /* Barre colorée à gauche (même mécanique que les chapter-cards) */
+  .file-row::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0;
+    width: 3px; height: 100%;
+    background: var(--accent);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform .18s;
+  }
+  .file-row.dm::before { background: #b89a4e; } /* barre dorée pour les DM */
+  .file-row:hover { background: var(--paper2); }
+  .file-row:hover::before { transform: scaleY(1); }
+
+  .file-icon {
+    width: 36px; height: 36px;
+    background: var(--paper2);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--ff-mono);
+    font-size: .6rem;
+    font-weight: 500;
+    color: var(--ink3);
+    letter-spacing: .04em;
+    flex-shrink: 0;
+  }
+  .file-icon.pdf { color: #c8472b; border-color: #f0c0b0; background: #fdf0ec; }
+  .file-icon.dm  { color: #7a6020; border-color: #d4b86a; background: #fdf6e8; }
+
+  .file-info { flex: 1; }
+  .file-name {
+    font-family: var(--ff-title);
+    font-size: .95rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .file-meta {
+    font-family: var(--ff-mono);
+    font-size: .65rem;
+    color: var(--ink3);
+    letter-spacing: .04em;
+    margin-top: .15rem;
+  }
+
+  /*
+    badges : les pastilles d'état à droite des fichiers.
+    .badge-dispo   → vert  : fichier disponible maintenant
+    .badge-bientot → gris  : fichier pas encore mis en ligne
+    .badge-dm      → gold  : document de type DM
+  */
+  .file-badge {
+    font-family: var(--ff-mono);
+    font-size: .6rem;
+    padding: 3px 8px;
+    border-radius: 2px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .badge-dispo   { background: #e8f8f2; color: #085041; border: 1px solid #9fe1cb; }
+  .badge-bientot { background: var(--paper2); color: var(--ink3); border: 1px solid var(--rule); }
+  .badge-dm      { background: #fdf6e8; color: #7a6020; border: 1px solid #b89a4e; }
+
+  /* ── ACTIVITÉ INTERACTIVE ── */
+  /*
+    activite-frame imite l'apparence d'une fenêtre d'application :
+    une barre de titre avec des "dots" colorés (inspiré des fenêtres macOS),
+    puis le corps de l'activité.
+  */
+  .activite-frame { border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; }
+  .activite-header {
+    background: var(--paper2);
+    border-bottom: 1px solid var(--rule);
+    padding: .7rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+  }
+  .activite-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--rule); }
+  .activite-dot.green { background: #5DCAA5; }
+  .activite-title {
+    font-family: var(--ff-mono);
+    font-size: .68rem;
+    color: var(--ink3);
+    letter-spacing: .04em;
+    flex: 1;
+  }
+  .activite-body {
+    padding: 2rem;
+    background: var(--paper);
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .8rem;
+    color: var(--ink3);
+  }
+  .activite-body .icon { font-size: 2rem; }
+  .activite-body p {
+    font-family: var(--ff-mono);
+    font-size: .72rem;
+    letter-spacing: .04em;
+    text-align: center;
+    max-width: 340px;
+    line-height: 1.6;
+  }
+
+  /* ── NAVIGATION ENTRE CHAPITRES ── */
+  /*
+    chapter-nav : les deux boutons en bas (← précédent | suivant →).
+    .next { flex-direction: row-reverse } inverse l'ordre interne
+    pour que la flèche → soit après le texte sans changer le HTML.
+  */
+  .chapter-nav {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .ch-nav-btn {
+    font-family: var(--ff-mono);
+    font-size: .68rem;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: var(--ink2);
+    text-decoration: none;
+    padding: .6rem 1rem;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    background: var(--paper2);
+    transition: border-color .15s, color .15s;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+  .ch-nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .ch-nav-btn.next { flex-direction: row-reverse; }
+
+  /* ── FOOTER ── */
+  footer { border-top: 1px solid var(--rule); }
+  .footer-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .footer-name { font-family: var(--ff-title); font-size: .9rem; color: var(--ink2); }
+  .footer-note { font-family: var(--ff-mono); font-size: .68rem; color: var(--ink3); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero { animation: fadeUp .4s ease both; }
+  .main { animation: fadeUp .4s ease both .06s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 620px) {
+    .cours-grid { grid-template-columns: 1fr; } /* 1 colonne sur mobile */
+    .chapter-nav { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════
+  HEADER
+  Le breadcrumb indique la position exacte dans le site.
+  Accueil (../../index.html) / 2nde (../index.html) / CH 1 (page active)
+  Chaque ../ remonte d'un dossier.
+  ═══════════════════════════════════════════════════════════════ -->
+<header>
+  <div class="header-inner">
+    <a class="site-name" href="../../index.html">maths<span>.</span></a>
+
+    <!-- ② Fil d'Ariane : Accueil / 2nde / CH 1 — Calcul littéral -->
+    <div class="breadcrumb">
+      <a href="../../index.html">Accueil</a>
+      <span class="sep">/</span>
+      <a href="../index.html">2nde</a>
+      <span class="sep">/</span>
+      <span class="current">CH 1 — Calcul littéral</span>
+    </div>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════════════════════════
+  HERO
+  Zone de titre du chapitre avec navigation interne (ancres).
+  Les liens href="#cours" etc. font défiler la page jusqu'aux
+  sections correspondantes (id="cours", id="exercices"…).
+  ═══════════════════════════════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-top">
+    <div>
+      <!-- ③ Eyebrow : niveau · classe · domaine -->
+      <p class="hero-eyebrow">Chapitre 1 · 2nde · Algèbre &amp; Calcul</p>
+      <!-- ④ Titre du chapitre -->
+      <h1>Calcul littéral</h1>
+    </div>
+  </div>
+
+  <!--
+    Navigation interne : chaque lien descend vers une section de la page.
+    href="#cours"     → <div class="block" id="cours">
+    href="#exercices" → <div class="block" id="exercices">
+    etc.
+    La classe .dm sur le dernier lien lui donne le style doré.
+  -->
+  <nav class="hero-nav">
+    <a href="#cours">Cours</a>
+    <a href="#exercices">Exercices</a>
+    <a href="#correction">Correction</a>
+    <a href="#activite">Activité interactive</a>
+    <a href="#dm" class="dm">Devoir Maison</a>
+  </nav>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+  CONTENU PRINCIPAL
+  Chaque section est un .block avec un id qui correspond aux ancres
+  du hero-nav ci-dessus.
+  ═══════════════════════════════════════════════════════════════ -->
+<div class="main">
+
+  <!-- ── COURS ────────────────────────────────────────────── -->
+  <!--
+    Structure : une grille 2 colonnes
+      colonne gauche  → téléchargement direct du PDF
+      colonne droite  → aperçu dans la page via togglePDF()
+  -->
+  <div class="block" id="cours">
+    <div class="block-header">
+      <span class="block-label">Cours</span>
+      <div class="block-rule"></div>
+    </div>
+    <div class="cours-grid">
+
+      <!-- Colonne gauche : téléchargement -->
+      <div class="cours-card">
+        <span class="cours-card-label">Document élève</span>
+        <span class="cours-card-title">Cours complet</span>
+        <!-- ⑤ Description du contenu : adaptée au chapitre -->
+        <span class="cours-card-desc">
+          Développement, factorisation, réduction d'expressions littérales.
+          Identités remarquables et substitution de valeurs numériques.
+        </span>
+        <div class="cours-card-actions">
+          <!--
+            target="_blank" ouvre dans un nouvel onglet.
+            Le href "cours.pdf" est relatif : il cherche le fichier
+            dans le même dossier que cette page HTML.
+          -->
+          <a href="cours.pdf" class="btn btn-primary" target="_blank">↓ Télécharger le PDF</a>
+          <a href="cours.pdf" class="btn btn-secondary" target="_blank">Ouvrir</a>
+        </div>
+      </div>
+
+      <!-- Colonne droite : aperçu dans la page -->
+      <div class="cours-card">
+        <span class="cours-card-label">Aperçu</span>
+        <span class="cours-card-title">Visualiser le cours</span>
+        <span class="cours-card-desc">
+          Clique sur « Afficher » pour voir le PDF directement dans la page.
+        </span>
+        <div class="cours-card-actions">
+          <!--
+            onclick="togglePDF(...)" appelle la fonction JS en bas de page.
+            1er argument : id du conteneur viewer
+            2e argument  : chemin du PDF à charger
+          -->
+          <button class="btn btn-secondary" onclick="togglePDF('viewer-cours', 'cours.pdf')">
+            Afficher le cours
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Zone d'affichage du PDF (masquée par défaut) -->
+    <div class="pdf-viewer" id="viewer-cours">
+      <div class="pdf-placeholder">
+        <span class="icon">◈</span>
+        <p>Clique sur « Afficher le cours » pour charger le document</p>
+      </div>
+      <iframe id="iframe-viewer-cours" title="Cours PDF"></iframe>
+    </div>
+  </div>
+
+  <!-- ── EXERCICES ─────────────────────────────────────────── -->
+  <!--
+    file-list : liste de liens vers des fichiers PDF.
+    Chaque file-row est un <a> cliquable qui ouvre le fichier.
+    badge-dispo  → fichier disponible (style vert)
+    badge-bientot → pas encore en ligne (style gris)
+  -->
+  <div class="block" id="exercices">
+    <div class="block-header">
+      <span class="block-label">Exercices</span>
+      <div class="block-rule"></div>
+    </div>
+    <div class="file-list">
+
+      <a href="exercices.pdf" class="file-row" target="_blank">
+        <div class="file-icon pdf">PDF</div>
+        <div class="file-info">
+          <div class="file-name">Feuille d'exercices</div>
+          <div class="file-meta">À imprimer · Travailler sur feuille séparée</div>
+        </div>
+        <span class="file-badge badge-dispo">Disponible</span>
+      </a>
+
+      <a href="exercices-supplementaires.pdf" class="file-row" target="_blank">
+        <div class="file-icon pdf">PDF</div>
+        <div class="file-info">
+          <div class="file-name">Exercices supplémentaires</div>
+          <div class="file-meta">Pour aller plus loin · Niveau ★★</div>
+        </div>
+        <span class="file-badge badge-bientot">Bientôt</span>
+      </a>
+
+    </div>
+    <div style="margin-top: 1rem;">
+      <button class="btn btn-secondary" onclick="togglePDF('viewer-exos', 'exercices.pdf')">
+        Afficher les exercices
+      </button>
+    </div>
+    <div class="pdf-viewer" id="viewer-exos" style="margin-top: .8rem;">
+      <div class="pdf-placeholder">
+        <span class="icon">◉</span>
+        <p>Clique sur « Afficher les exercices » pour charger le document</p>
+      </div>
+      <iframe id="iframe-viewer-exos" title="Exercices PDF"></iframe>
+    </div>
+  </div>
+
+  <!-- ── CORRECTION ───────────────────────────────────────── -->
+  <div class="block" id="correction">
+    <div class="block-header">
+      <span class="block-label">Correction</span>
+      <div class="block-rule"></div>
+    </div>
+    <div class="file-list">
+
+      <a href="correction.pdf" class="file-row" target="_blank">
+        <div class="file-icon pdf">PDF</div>
+        <div class="file-info">
+          <div class="file-name">Correction complète</div>
+          <div class="file-meta">Tous les exercices résolus pas à pas</div>
+        </div>
+        <span class="file-badge badge-dispo">Disponible</span>
+      </a>
+
+    </div>
+    <div style="margin-top: 1rem;">
+      <button class="btn btn-secondary" onclick="togglePDF('viewer-corr', 'correction.pdf')">
+        Afficher la correction
+      </button>
+    </div>
+    <div class="pdf-viewer" id="viewer-corr" style="margin-top: .8rem;">
+      <div class="pdf-placeholder">
+        <span class="icon">◎</span>
+        <p>Clique sur « Afficher la correction » pour charger le document</p>
+      </div>
+      <iframe id="iframe-viewer-corr" title="Correction PDF"></iframe>
+    </div>
+  </div>
+
+  <!-- ── ACTIVITÉ INTERACTIVE ─────────────────────────────── -->
+  <!--
+    activite-frame : imite une fenêtre d'application.
+    ⑥⑦ Les deux seules choses à adapter ici :
+      • activite-title : nom du fichier + sujet
+      • les deux href  : nom du fichier d'activité HTML
+  -->
+  <div class="block" id="activite">
+    <div class="block-header">
+      <span class="block-label">Activité interactive</span>
+      <div class="block-rule"></div>
+    </div>
+    <div class="activite-frame">
+      <div class="activite-header">
+        <div class="activite-dot green"></div>
+        <div class="activite-dot"></div>
+        <div class="activite-dot"></div>
+        <!-- ⑥ Nom du fichier d'activité et sujet -->
+        <span class="activite-title">activite-calcul-litteral.html · Calcul littéral</span>
+        <!-- ⑦ Lien vers le fichier d'activité -->
+        <a href="activite-calcul-litteral.html" class="btn btn-secondary"
+           target="_blank" style="padding: 4px 10px; font-size: .62rem;">Ouvrir ↗</a>
+      </div>
+      <div class="activite-body">
+        <span class="icon">∿</span>
+        <p>L'activité interactive sera disponible ici.</p>
+        <a href="activite-calcul-litteral.html" class="btn btn-primary">Lancer l'activité →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DEVOIR MAISON ─────────────────────────────────────── -->
+  <!--
+    Note : le DM affiché ICI est le DM propre à CE chapitre.
+    Les DM transversaux (qui couvrent plusieurs chapitres) sont
+    sur la page 2nde/devoirs-maison/index.html.
+    Les deux coexistent sans se contredire.
+  -->
+  <div class="block" id="dm">
+    <div class="block-header">
+      <span class="block-label">Devoir Maison</span>
+      <div class="block-rule"></div>
+    </div>
+
+    <div class="file-list">
+
+      <!-- Sujet : classe .dm sur file-row pour la barre dorée au hover -->
+      <a href="dm-sujet.pdf" class="file-row dm" target="_blank">
+        <div class="file-icon dm">DM</div>
+        <div class="file-info">
+          <div class="file-name">Sujet du devoir maison</div>
+          <div class="file-meta">À rendre pour le — · Travailler sur feuille</div>
+        </div>
+        <span class="file-badge badge-dm">Devoir maison</span>
+      </a>
+
+      <!-- Correction : badge "Bientôt" jusqu'à la date de rendu -->
+      <a href="dm-correction.pdf" class="file-row dm" target="_blank">
+        <div class="file-icon dm">DM</div>
+        <div class="file-info">
+          <div class="file-name">Correction du devoir maison</div>
+          <div class="file-meta">Disponible après la date de rendu</div>
+        </div>
+        <span class="file-badge badge-bientot">Bientôt</span>
+      </a>
+
+    </div>
+
+    <div style="margin-top: 1rem; display: flex; gap: .5rem; flex-wrap: wrap;">
+      <a href="dm-sujet.pdf" class="btn btn-dm" target="_blank">↓ Télécharger le sujet</a>
+      <button class="btn btn-secondary" onclick="togglePDF('viewer-dm', 'dm-sujet.pdf')">
+        Afficher le sujet
+      </button>
+    </div>
+    <div class="pdf-viewer" id="viewer-dm" style="margin-top: .8rem;">
+      <div class="pdf-placeholder">
+        <span class="icon">◈</span>
+        <p>Clique sur « Afficher le sujet » pour charger le devoir</p>
+      </div>
+      <iframe id="iframe-viewer-dm" title="Devoir Maison PDF"></iframe>
+    </div>
+  </div>
+
+</div><!-- fin .main -->
+
+<!-- ════════════════════════════════════════════════════════════════
+  NAVIGATION ENTRE CHAPITRES
+  ⑧ Adapter :
+    • bouton gauche → "Retour aux chapitres de 2nde" (../index.html)
+    • bouton droit  → chapitre suivant (../puissances-racines/index.html)
+  ═══════════════════════════════════════════════════════════════ -->
+<div class="chapter-nav">
+  <a href="../index.html" class="ch-nav-btn">← Retour aux chapitres de 2nde</a>
+  <a href="../puissances-racines/index.html" class="ch-nav-btn next">CH 2 · Puissances et racines →</a>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span class="footer-name">Cours de mathématiques — Collège René Goscinny</span>
+    <span class="footer-note">Année scolaire 2024–2025</span>
+  </div>
+</footer>
+
+<!-- ════════════════════════════════════════════════════════════════
+  JAVASCRIPT — fonction togglePDF
+  ════════════════════════════════════════════════════════════════
+  Cette fonction gère l'affichage/masquage d'un PDF dans la page.
+
+  Comment elle fonctionne, étape par étape :
+    1. On récupère le conteneur viewer par son id
+       → document.getElementById(viewerId)
+    2. On cherche dans ce conteneur le placeholder et l'iframe
+       → viewer.querySelector('.pdf-placeholder')
+       → viewer.querySelector('iframe')
+    3. Si l'iframe est déjà visible (display === 'block') :
+       → on la cache et on réaffiche le placeholder
+    4. Sinon :
+       → si l'iframe n'a pas encore de src (pas encore chargée)
+          on lui assigne le chemin du PDF
+       → on affiche l'iframe et on cache le placeholder
+
+  Pourquoi vérifier iframe.src === window.location.href ?
+  → Certains navigateurs mettent l'URL de la page courante comme
+    src par défaut quand aucun src n'est défini. Ce test évite
+    de recharger le PDF à chaque ouverture/fermeture.
+  ════════════════════════════════════════════════════════════════ -->
+<script>
+function togglePDF(viewerId, src) {
+  const viewer      = document.getElementById(viewerId);
+  const placeholder = viewer.querySelector('.pdf-placeholder');
+  const iframe      = viewer.querySelector('iframe');
+
+  if (iframe.style.display === 'block') {
+    // Le PDF est visible → on le masque
+    iframe.style.display      = 'none';
+    placeholder.style.display = 'flex';
+  } else {
+    // Le PDF est masqué → on le charge et on l'affiche
+    if (!iframe.src || iframe.src === window.location.href) {
+      iframe.src = src; // chargement du PDF (une seule fois)
+    }
+    iframe.style.display      = 'block';
+    placeholder.style.display = 'none';
+  }
+}
+</script>
+
+</body>
+</html>
